@@ -37,9 +37,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <avr/wdt.h>
-
 #include "config.h"
-#include "motor.h"
 #include "com.h"
 #include "rs232_485.h"
 #include "main.h"
@@ -50,6 +48,7 @@
 #include "eeprom.h"
 #include "controller.h"
 #include "debug.h"
+#include "motor.h"
 
 #define TX_BUFF_SIZE 128
 #define RX_BUFF_SIZE 32
@@ -354,6 +353,8 @@ static void print_idx(char t) {
     COM_putchar('=');
 }
 
+
+static void MOTOR_Control(motor_dir_t); // control H-bridge of motor
 
 /*!
  *******************************************************************************
