@@ -374,8 +374,8 @@ static void print_idx(char t) {
  *  \note   Axx\n - set wanted temperature [unit 0.5C]
  *  \note   Mxx\n - set mode to 0=manu 1=auto
  *
- *  \note   O - open the hr20 + set mode to manual
- *  \note   C - close the hr20 + set mode to manual
+ *  \note   O - set to max temp (ventil open)
+ *  \note   C - set to min temp /ventil closed)
  *
  *	
  ******************************************************************************/
