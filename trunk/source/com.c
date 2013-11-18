@@ -469,7 +469,16 @@ void COM_commad_parse (void) {
                         COM_print_debug(-1);
                         break;
 		case 'O':
-                        print_version();
+                        CTL_change_mode(com_hex['00']==1);
+                        MOTOR_Control(stop, full);
+                        MOTOR_Control(open, full);
+                        COM_print_debug(-1);
+                        c='\0';
+			break;
+		case 'C':
+                        CTL_change_mode(com_hex['00']==1);
+                        MOTOR_Control(stop, full);
+                        MOTOR_Control(close, full);
                         COM_print_debug(-1);
                         c='\0';
 			break;
