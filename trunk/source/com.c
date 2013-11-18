@@ -32,13 +32,14 @@
  * $Rev$
  */
 
+// AVR LibC includes 
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <avr/wdt.h>
 
-
 #include "config.h"
+#include "motor.h"
 #include "com.h"
 #include "rs232_485.h"
 #include "main.h"
@@ -49,8 +50,6 @@
 #include "eeprom.h"
 #include "controller.h"
 #include "debug.h"
-#include "motor.h"
-
 
 #define TX_BUFF_SIZE 128
 #define RX_BUFF_SIZE 32
@@ -356,8 +355,6 @@ static void print_idx(char t) {
 }
 
 
-// global Vars for default values: speed
-volatile motor_speed_t m_speed;            // motor speed
 /*!
  *******************************************************************************
  *  \brief parse command
@@ -384,8 +381,6 @@ volatile motor_speed_t m_speed;            // motor speed
  *	
  ******************************************************************************/
 void COM_commad_parse (void) {
-        motor_speed_t speed;        //!< motor speed (fast or quiet)
-
 	char c;
 	while (COM_requests) {
         switch(c=COM_getchar()) {
@@ -473,15 +468,15 @@ void COM_commad_parse (void) {
                         break;
 		case 'O':
                         CTL_change_mode(com_hex['00']==1);
-                        MOTOR_Control(stop, full);
-                        MOTOR_Control(open, full);
+                        MOTOR_Control(stop);
+                        MOTOR_Control(open);
                         COM_print_debug(-1);
                         c='\0';
 			break;
 		case 'C':
                         CTL_change_mode(com_hex['00']==1);
-                        MOTOR_Control(stop, full);
-                        MOTOR_Control(close, full);
+                        MOTOR_Control(stop);
+                        MOTOR_Control(close);
                         COM_print_debug(-1);
                         c='\0';
 			break;
