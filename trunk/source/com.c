@@ -354,8 +354,6 @@ static void print_idx(char t) {
 }
 
 
-static void MOTOR_Control(motor_dir_t); // control H-bridge of motor
-
 /*!
  *******************************************************************************
  *  \brief parse command
@@ -469,15 +467,15 @@ void COM_commad_parse (void) {
                         break;
 		case 'O':
                         CTL_change_mode(com_hex['00']==1);
-                        MOTOR_Control(stop);
-                        MOTOR_Control(open);
+                        MOTOR_updateCalibration(mont_contact_pooling());
+                        MOTOR_Goto('100');
                         COM_print_debug(-1);
                         c='\0';
 			break;
 		case 'C':
                         CTL_change_mode(com_hex['00']==1);
-                        MOTOR_Control(stop);
-                        MOTOR_Control(close);
+                        MOTOR_updateCalibration(mont_contact_pooling());
+                        MOTOR_Goto('0');
                         COM_print_debug(-1);
                         c='\0';
 			break;
