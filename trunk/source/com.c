@@ -49,6 +49,7 @@
 #include "eeprom.h"
 #include "controller.h"
 #include "debug.h"
+#include "motor.h"
 
 
 #define TX_BUFF_SIZE 128
@@ -375,6 +376,10 @@ static void print_idx(char t) {
  *  \note   Hhhmmss\n - set, hour hh, minute mm, second ss; HEX values!!!
  *  \note   Axx\n - set wanted temperature [unit 0.5C]
  *  \note   Mxx\n - set mode to 0=manu 1=auto
+ *
+ *  \note   O - open the hr20 + set mode to manual
+ *  \note   C - close the hr20 + set mode to manual
+ *
  *	
  ******************************************************************************/
 void COM_commad_parse (void) {
@@ -410,7 +415,7 @@ void COM_commad_parse (void) {
             print_idx(c);
 			if (com_hex[0]==0xff) {
 			     print_hexXX(EE_LAYOUT);
-            } else {
+                        } else {
 			     print_hexXX(config_raw[com_hex[0]]);
 			}
 			break;
@@ -425,7 +430,7 @@ void COM_commad_parse (void) {
 			}
             print_idx(c);
 			print_hexXXXX(eeprom_timers_read_raw(
-                timers_get_raw_index((com_hex[0]>>4),(com_hex[0]&0xf))));
+                        timers_get_raw_index((com_hex[0]>>4),(com_hex[0]&0xf))));
 			break;
 		case 'Y':
 			if (COM_hex_parse(3*2)!='\0') { break; }
@@ -443,29 +448,35 @@ void COM_commad_parse (void) {
 			break;
 		case 'B':
 			{
-				if (COM_hex_parse(2*2)!='\0') { break; }
-  				if ((com_hex[0]==0x13) && (com_hex[1]==0x24)) {
-                      cli();
-                      wdt_enable(WDTO_15MS); //wd on,15ms
-                      while(1); //loop till reset
-    			}
+                            if (COM_hex_parse(2*2)!='\0') { break; }
+                            if ((com_hex[0]==0x13) && (com_hex[1]==0x24)) {
+                                cli();
+                                wdt_enable(WDTO_15MS); //wd on,15ms
+                                while(1); //loop till reset
+        			}
 			}
 			break;
-        case 'M':
-            if (COM_hex_parse(1*2)!='\0') { break; }
-            CTL_change_mode(com_hex[0]==1);
-            // COM_print_debug(-1);
-            break;
-        case 'A':
-            if (COM_hex_parse(1*2)!='\0') { break; }
-            if (com_hex[0]<TEMP_MIN-1) { break; }
-            if (com_hex[0]>TEMP_MAX+1) { break; }
-            CTL_set_temp(com_hex[0]);
-            COM_print_debug(-1);
-            break;
-		//case '\n':
-		//case '\0':
-		default:
+                case 'M':
+                        if (COM_hex_parse(1*2)!='\0') { break; }
+                        CTL_change_mode(com_hex[0]==1);
+                        // COM_print_debug(-1);
+                        break;
+                case 'A':
+                        if (COM_hex_parse(1*2)!='\0') { break; }
+                        if (com_hex[0]<TEMP_MIN-1) { break; }
+                        if (com_hex[0]>TEMP_MAX+1) { break; }
+                        CTL_set_temp(com_hex[0]);
+                        COM_print_debug(-1);
+                        break;
+		case 'O':
+			if (COM_getchar()=='\n') {
+                            print_version();
+                            c='\0';
+                        }
+			break;
+                //case '\n':
+                //case '\0':
+                default:
 			c='\0';
 			break;
 		}
