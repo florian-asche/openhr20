@@ -469,10 +469,9 @@ void COM_commad_parse (void) {
                         COM_print_debug(-1);
                         break;
 		case 'O':
-			if (COM_getchar()=='\n') {
-                            print_version();
-                            c='\0';
-                        }
+                        print_version();
+                        COM_print_debug(-1);
+                        c='\0';
 			break;
                 //case '\n':
                 //case '\0':
