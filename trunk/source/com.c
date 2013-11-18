@@ -467,12 +467,14 @@ void COM_commad_parse (void) {
                         break;
 		case 'O':
                         CTL_change_mode(com_hex['00']==1);
+                        MOTOR_updateCalibration(mont_contact_pooling());
                         MOTOR_Goto('100');
                         COM_print_debug(-1);
                         c='\0';
 			break;
 		case 'C':
                         CTL_change_mode(com_hex['00']==1);
+                        MOTOR_updateCalibration(mont_contact_pooling());
                         MOTOR_Goto('0');
                         COM_print_debug(-1);
                         c='\0';
