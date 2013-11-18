@@ -482,6 +482,8 @@ void COM_commad_parse (void) {
 			break;
 		}
 		if (c!='\0') COM_putchar('\n');
+                print_s_p(PSTR("EOF"));
+                COM_putchar('\n');
 		COM_flush();
 	}
 }
