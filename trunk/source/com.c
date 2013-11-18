@@ -356,7 +356,8 @@ static void print_idx(char t) {
 }
 
 
-
+// global Vars for default values: speed
+volatile motor_speed_t m_speed;            // motor speed
 /*!
  *******************************************************************************
  *  \brief parse command
@@ -383,6 +384,8 @@ static void print_idx(char t) {
  *	
  ******************************************************************************/
 void COM_commad_parse (void) {
+        motor_speed_t speed;        //!< motor speed (fast or quiet)
+
 	char c;
 	while (COM_requests) {
         switch(c=COM_getchar()) {
