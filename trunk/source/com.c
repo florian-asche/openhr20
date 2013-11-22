@@ -300,7 +300,7 @@ void COM_print_debug(int8_t valve) {
 	if (mode_window()) {
 		print_s_p(PSTR(" W"));
 	}
-	COM_putchar('\n');
+	COM_putchar('\r\n');
 	COM_flush();
 }
 
@@ -481,9 +481,9 @@ void COM_commad_parse (void) {
 			c='\0';
 			break;
 		}
-		if (c!='\0') COM_putchar('\n');
+		if (c!='\0') COM_putchar('\r\n');
                 print_s_p(PSTR("EOF"));
-                COM_putchar('\n');
+                COM_putchar('\r\n');
 		COM_flush();
 	}
 }
@@ -500,7 +500,7 @@ void COM_debug_print_motor(int8_t dir, uint16_t m, uint8_t pwm) {
     COM_putchar(' ');
 	print_hexXX(pwm);
 
-    COM_putchar('\n');
+    COM_putchar('\r\n');
     COM_flush();
 }
 #endif
@@ -509,7 +509,7 @@ void COM_debug_print_motor(int8_t dir, uint16_t m, uint8_t pwm) {
 void COM_debug_print_temperature(uint16_t t) {
     print_s_p(PSTR("T: "));
     print_decXXXX(t);
-    COM_putchar('\n');
+    COM_putchar('\r\n');
     COM_flush();
 }
 #endif
