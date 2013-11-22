@@ -524,9 +524,23 @@ void COM_commad_parse (void) {
 		//case '\n':
 		//case '\0':
 		default:
-			c='\0';
-			break;
+                        print_s_p(PSTR("ERROR"));
+			//c='\0';
+			//break;
+                        COM_putchar('\n');
 		}
+
+                if (COM_getchar()=='\n') {
+                        print_s_p(PSTR("EOF"));
+			//c='\0';
+			//break;
+                        //COM_putchar('\r');
+                        COM_putchar('\n');
+                }               
+
+
+
+
 		if (c!='\0') COM_putchar('\n');
 		COM_flush();
 		#if (RFM==1)
