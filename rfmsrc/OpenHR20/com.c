@@ -270,8 +270,8 @@ void COM_init(void) {
  *  \note
  ******************************************************************************/
 void COM_print_debug(uint8_t type) {
-    print_s_p(PSTR("D: "));
-    print_hexXX(RTC_GetDayOfWeek()+0xd0);
+        print_s_p(PSTR("D: "));
+        print_hexXX(RTC_GetDayOfWeek()+0xd0);
 	COM_putchar(' ');
 	print_decXX(RTC_GetDay());
 	COM_putchar('.');
@@ -285,7 +285,7 @@ void COM_print_debug(uint8_t type) {
 	COM_putchar(':');
 	print_decXX(RTC_GetSecond());
 	COM_putchar(' ');
-    COM_putchar((CTL_mode_auto)?(CTL_test_auto()?'A':'-'):'M');
+        COM_putchar((CTL_mode_auto)?(CTL_test_auto()?'A':'-'):'M');
 	print_s_p(PSTR(" V: "));
 	print_decXX(valve_wanted);
 	print_s_p(PSTR(" I: "));
@@ -305,19 +305,33 @@ void COM_print_debug(uint8_t type) {
 	print_s_p(PSTR(" Ie: ")); //jr
 	print_hexXX(CTL_creditExpiration);
 #endif
-    if (CTL_error!=0) {
+        if (CTL_error!=0) {
 		print_s_p(PSTR(" E:"));
-        print_hexXX(CTL_error);
-    }                   
+                print_hexXX(CTL_error);
+        }
+                   
 	if (type>0) {
 		print_s_p(PSTR(" X"));
 	}
+
+
 	if (mode_window()) {
 		print_s_p(PSTR(" W"));
-	}
+	} else {
+                print_s_p(PSTR(" -"));
+        }
+
+
+
 	if (menu_locked) {
 		print_s_p(PSTR(" L"));
-	}
+	} else {
+                print_s_p(PSTR(" -"));
+        }
+
+
+
+
 	COM_putchar('\n');
 	COM_flush();
 #if (RFM==1)
@@ -493,12 +507,12 @@ void COM_commad_parse (void) {
 			break;
 		case 'B':
 			{
-				if (COM_hex_parse(2*2)!='\0') { break; }
-  				if ((com_hex[0]==0x13) && (com_hex[1]==0x24)) {
-                      cli();
-                      wdt_enable(WDTO_15MS); //wd on,15ms
-                      while(1); //loop till reset
-    			}
+                            if (COM_hex_parse(2*2)!='\0') { break; }
+                            if ((com_hex[0]==0x13) && (com_hex[1]==0x24)) {
+                                cli();
+                                wdt_enable(WDTO_15MS); //wd on,15ms
+                                while(1); //loop till reset
+                            }
 			}
 			break;
         case 'M':
