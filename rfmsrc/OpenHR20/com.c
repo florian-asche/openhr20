@@ -433,7 +433,7 @@ static void print_idx(char t, uint8_t i) {
  *  \note   Mxx\n - set mode and close window (00=manu 01=auto fd=nochange/close window only)
  *  \note   Lxx\n - Lock keys, and return lock status (00=unlock, 01=lock, 02=status only)
  *  \note   O - set to max temp (ventil open)
- *  \note   C - set to min temp /ventil closed)
+ *  \note   Y - set to min temp /ventil closed)
  *	
  ******************************************************************************/
 void COM_commad_parse (void) {
@@ -527,7 +527,7 @@ void COM_commad_parse (void) {
             CTL_set_temp(com_hex[0]);
             COM_print_debug(1);
             break;
-        case 'O':
+        case 'Y':
             CTL_set_temp(TEMP_MAX);
             COM_print_debug(-1);
             c='\0';
